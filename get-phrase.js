@@ -7,11 +7,12 @@ var canonicalizer = require('canonicalizer');
 var iscool = require('iscool')();
 
 var relationshipTypePriority = [
-  'antonym',
+  // 'antonym',
   'rhyme',
-  'same-context',
-  'related-word',
-  'cross-reference',
+  // 'same-context',
+  // 'cross-reference',
+
+  // 'related-word',
   // 'hypernym',
   // 'variant'
 ];
