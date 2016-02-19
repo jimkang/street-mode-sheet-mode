@@ -12,8 +12,8 @@ var relationshipTypePriority = [
   'same-context',
   'related-word',
   'cross-reference',
-  'hypernym',
-  'variant'
+  // 'hypernym',
+  // 'variant'
 ];
 
 var wordnok = createWordnok({
