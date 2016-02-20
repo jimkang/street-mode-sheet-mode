@@ -6,16 +6,16 @@ var probable = require('probable');
 var canonicalizer = require('canonicalizer');
 var iscool = require('iscool')();
 
-var relationshipTypePriority = [
-  // 'antonym',
+var relationshipTypePriority = probable.shuffle([
+  'antonym',
   'rhyme',
-  // 'same-context',
-  // 'cross-reference',
+  'cross-reference',
 
+  // 'same-context',
   // 'related-word',
   // 'hypernym',
   // 'variant'
-];
+]);
 
 var wordnok = createWordnok({
   apiKey: config.wordnikAPIKey,
@@ -65,11 +65,14 @@ function getPhrase(done) {
 
     function getWordOfType(relationshipType) {
       if (relationshipType in wordDict) {
+        // console.log('got word of type:', relationshipType);
         var words = wordDict[relationshipType];
         var validWords = words.filter(doesNotContainBase).filter(iscool);
-        picked = probable.pickFromArray(validWords);
-        canonicalizer.getSingularAndPluralForms(picked)[0];
-        return true;
+        if (validWords.length > 0) {
+          picked = probable.pickFromArray(validWords);
+          picked = canonicalizer.getSingularAndPluralForms(picked)[0];
+          return true;
+        }
       }
       return false;
     }    
