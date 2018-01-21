@@ -9,7 +9,7 @@ var iscool = require('iscool')();
 var relationshipTypePriority = probable.shuffle([
   'antonym',
   'rhyme',
-  'cross-reference',
+  'cross-reference'
 
   // 'same-context',
   // 'related-word',
@@ -58,8 +58,7 @@ function getPhrase(done) {
 
     if (picked) {
       callNextTick(done, null, picked);
-    }
-    else {
+    } else {
       callNextTick(done, new Error('Could not find related word.'));
     }
 
@@ -75,7 +74,7 @@ function getPhrase(done) {
         }
       }
       return false;
-    }    
+    }
   }
 
   function doesNotContainBase(word) {
@@ -84,19 +83,24 @@ function getPhrase(done) {
 
   function assemblePhrase(relatedWord, done) {
     callNextTick(
-      done, null, 
-      getArticleForWord(baseWord) + ' ' + baseWord +
-      ' in the street but ' + getArticleForWord(relatedWord) + ' ' +
-      relatedWord + ' in the sheets'
-    )
+      done,
+      null,
+      getArticleForWord(baseWord) +
+        ' ' +
+        baseWord +
+        ' in the street but ' +
+        getArticleForWord(relatedWord) +
+        ' ' +
+        relatedWord +
+        ' in the sheets'
+    );
   }
 }
 
 function getArticleForWord(word) {
   if (['a', 'e', 'i', 'o', 'u'].indexOf(word.charAt(0).toLowerCase()) === -1) {
     return 'a';
-  }
-  else {
+  } else {
     return 'an';
   }
 }

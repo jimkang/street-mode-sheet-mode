@@ -1,3 +1,5 @@
+/* global process */
+
 var config = require('./config/config');
 var callNextTick = require('call-next-tick');
 var Twit = require('twit');
@@ -6,7 +8,7 @@ var probable = require('probable');
 
 var dryRun = false;
 if (process.argv.length > 2) {
-  dryRun = (process.argv[2].toLowerCase() == '--dry');
+  dryRun = process.argv[2].toLowerCase() == '--dry';
 }
 
 var tryLimit = 10;
@@ -20,7 +22,7 @@ var randomId = require('idmaker').randomId;
 
 var staticWebStream = StaticWebArchiveOnGit({
   config: config.github,
-  title: config.archiveName, 
+  title: config.archiveName,
   footerScript: `<script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -43,8 +45,7 @@ function usePhrase(error, phrase) {
       // Try again.
       callNextTick(getPhrase, usePhrase);
     }
-  }
-  else {
+  } else {
     postToTargets(buildSentence(phrase), wrapUp);
   }
 }
@@ -54,14 +55,10 @@ function buildSentence(phrase) {
     'Aw yeah – ',
     'You know you want ',
     'Like they say, ',
-    'Look out! It\'s ',
+    "Look out! It's ",
     'You know how it is – '
   ]);
-  var suffix = probable.pickFromArray([
-    '!',
-    '.',
-    '. 😉'
-  ]);
+  var suffix = probable.pickFromArray(['!', '.', '. 😉']);
   return prefix + phrase + suffix;
 }
 
@@ -76,8 +73,7 @@ function postTweet(text, done) {
   if (dryRun) {
     console.log('Would have tweeted:', text);
     callNextTick(done);
-  }
-  else {
+  } else {
     var body = {
       status: text
     };
